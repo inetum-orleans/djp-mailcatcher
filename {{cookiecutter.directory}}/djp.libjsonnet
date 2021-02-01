@@ -1,0 +1,21 @@
+local ddb = import 'ddb.docker.libjsonnet';
+
+local defaultName = ddb.File(std.thisFile).parent.name;
+
+local factory(name, params={}) =
+	local o = {
+		domain: ddb.params.value(params, 'domain', ddb.subDomain(name))
+	};
+
+	{services+: {
+		[name]+:
+			ddb.Build(defaultName) +
+			ddb.VirtualHost("80", o.domain, name) +
+			ddb.Expose("25")
+		}
+	};
+
+{
+  factory: factory,
+  defaultName: defaultName
+}
