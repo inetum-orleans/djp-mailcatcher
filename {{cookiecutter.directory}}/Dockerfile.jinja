@@ -1,4 +1,4 @@
-FROM alpine:3.6
+FROM alpine:3.17
 
 RUN apk add --update \
 ruby \
@@ -12,7 +12,7 @@ sqlite-dev \
 openssl-dev \
 build-base
 
-RUN gem install mailcatcher --no-rdoc --no-ri
+RUN gem install mailcatcher --no-document
 
 # smtp port
 EXPOSE 80 25
